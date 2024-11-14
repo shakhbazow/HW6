@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   EMIL SHAHBAZOV / 272-01
  *
  *   This java file contains the problem solutions for the methods lastBoulder,
  *   showDuplicates, and pair methods. You should utilize the Java Collection
@@ -68,7 +68,22 @@ public class ProblemSolutions {
       //
       // ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME / SECTION # ABOVE
       //
-      return -1;
+      // create max heap to store boulders by weight
+      PriorityQueue<Integer> pq = new PriorityQueue<>(Collections.reverseOrder());
+      for (int boulder : boulders) { // add boulders to priority queue
+          pq.offer(boulder);
+      }
+      // smash boulders until one left
+      while (pq.size() > 1) {
+          int x = pq.poll(); // remove heaviest
+          int y = pq.poll(); // remove secodn heaviest
+          if (x != y) {
+              pq.offer(Math.abs(x - y));
+          }
+      }
+
+      return pq.isEmpty() ? 0 : pq.peek();
+    //  return -1;
   }
 
 
@@ -90,11 +105,27 @@ public class ProblemSolutions {
      */
 
     public static ArrayList<String> showDuplicates(ArrayList<String> input) {
+        Map<String, Integer> frequencyMap = new HashMap<>();
+        for (String str : input) {
+            frequencyMap.put(str, frequencyMap.getOrDefault(str, 0) + 1);
+        }
 
+        ArrayList<String> duplicates = new ArrayList<>();
+
+        // add strings with frequency greater than 1 to the duplicates list
+        for (Map.Entry<String, Integer> entry : frequencyMap.entrySet()) {
+            if (entry.getValue() > 1) {
+                duplicates.add(entry.getKey());
+            }
+        }
+        // Sort the duplicates list in ascending order before returning
+        Collections.sort(duplicates);
+        Collections.sort(duplicates); // Sort in ascending order
+        return duplicates;
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure result is sorted in ascending order
+        // return new ArrayList<>();  // Make sure result is sorted in ascending order
 
     }
 
@@ -130,10 +161,23 @@ public class ProblemSolutions {
      */
 
     public static ArrayList<String> pair(int[] input, int k) {
+        Set<Integer> seen = new HashSet<>();
+        Set<String> pairs = new TreeSet<>(); // treeSet to keep sorted order
 
+        for (int num : input) {
+            int complement = k - num;
+            if (seen.contains(complement)) {
+                int a = Math.min(num, complement);
+                int b = Math.max(num, complement);
+                pairs.add("(" + a + ", " + b + ")");
+            }
+            seen.add(num);
+        }
+
+        return new ArrayList<>(pairs);
         //
         //  YOUR CODE GOES HERE
         //
-        return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
+       // return new ArrayList<>();  // Make sure returned lists is sorted as indicated above
     }
 }

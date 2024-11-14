@@ -1,7 +1,7 @@
 
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   EMIL SHAHBAZOV / 272-01
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -150,9 +150,12 @@ class PriorityQueue<E, P> {
      */
 
     public Node add(E e, P priority) {
-
+        Node newNode = new Node(e, priority, tree.size()); // create new node
+        tree.add(newNode); // add new node to end of tree
+        pullUp(newNode.idx);
+        return newNode; // return handle to node
         // YOUR CODE GOES HERE
-        return null;
+
     }
 
 
@@ -167,9 +170,14 @@ class PriorityQueue<E, P> {
      */
 
     public boolean contains(E e) {
-
-        // ADD YOUR CODE HERE
+        for (Node node : tree) {   // iterate through all nodes in tree
+            if (node.value.equals(e)) {
+                return true;
+            }
+        }
         return false;
+        // ADD YOUR CODE HERE
+
     }
 
 
